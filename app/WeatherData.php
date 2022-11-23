@@ -17,13 +17,13 @@ class WeatherData
     {
 
         $this->data = $dataFromApi;
-        $this->currentTemp = $this->data['list'][0]['main']['temp'];
-        $this->maxTemp = $this->data['list'][0]['main']['temp_max'];;
-        $this->minTemp = $this->data['list'][0]['main']['temp_min'];;
-        $this->feelsLike = $this->data['list'][0]['main']['feels_like'];;
-        $this->humidity = $this->data['list'][0]['main']['humidity'];;
-        $this->windSpeed = $this->data['list'][0]['wind']['speed'];
-        $this->clouds = $this->data['list'][0]['weather'][0]['description'];
+        $this->currentTemp = $this->data['main']['temp'];
+        $this->maxTemp = $this->data['main']['temp_max'];;
+        $this->minTemp = $this->data['main']['temp_min'];;
+        $this->feelsLike = $this->data['main']['feels_like'];;
+        $this->humidity = $this->data['main']['humidity'];;
+        $this->windSpeed = $this->data['wind']['speed'];
+        $this->clouds = $this->data['weather'][0]['description'];
     }
 
     /**
