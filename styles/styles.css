@@ -1,5 +1,5 @@
 .container{
-    margin: 0 20% 0 20%;
+
     display: grid;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -7,11 +7,18 @@
     grid-template-rows: repeat(3, auto);
     background-color: #A3CEF1;
     padding: 0 10px 10px 10px;
+    margin: 0 20% 0 20%;
 }
 
 .city{
+    grid-column: 2;
     grid-row: row;
-    margin-bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    text-align: center;
+
 }
 
 .day{
@@ -20,21 +27,17 @@
     position: relative;
     padding-left: 5px;
     background-color: #E7ECEF;
+    margin-top: 10%;
 
 
 }
 
 .day-one{
     grid-row: row 2;
+    grid-column: 2;
 }
 
-.day-two{
-    grid-row: row 2;
-}
 
-.day-three{
-    grid-row: row 2;
-}
 
 .weather-data{
     text-shadow: 1px 1px #A3CEF1;
@@ -43,8 +46,9 @@
 .cool{
     position: absolute;
     top: -6%;
-    width: 45%;
-    left: 30%;
+    width: 50%;
+    min-width: 50%;
+    left: 25%;
     line-height: 1.5rem;
     font-size: 1rem;
     text-align: center;
@@ -70,6 +74,8 @@
     margin-top: 2px;
 }
 
-.cities{
-    grid-row: row 3;
+.input-field{
+    border-radius: 8px;
+    margin-top: 10px;
 }
+

@@ -17,8 +17,12 @@ class GeoApi
         $this->data = json_decode($this->json, true);
     }
 
-    public function getCoordinates(): array{
-        return ["lat" => $this->data[0]["lat"], "lon" => $this->data[0]["lon"]];
+    public function getCoordinates(): ?array{
+        if(count($this->data) === 0){
+            return ["lat" => 56.97, "lon" => 24.11];
+        } else {
+            return ["lat" => $this->data[0]["lat"], "lon" => $this->data[0]["lon"]];
+        }
     }
 
 

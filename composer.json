@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "pragmarx/countries": "^0.8.2"
+        "pragmarx/countries": "^0.8.2",
+        "nikic/fast-route": "^1.3"
     }
 }

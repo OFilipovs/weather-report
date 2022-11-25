@@ -11,6 +11,7 @@ class WeatherData
     private string $humidity;
     private string $windSpeed;
     private string $clouds;
+    private string $city;
 
 
     public function __construct(array $dataFromApi)
@@ -24,11 +25,14 @@ class WeatherData
         $this->humidity = $this->data['main']['humidity'];;
         $this->windSpeed = $this->data['wind']['speed'];
         $this->clouds = $this->data['weather'][0]['description'];
+        $this->city = $this->data['name'];
     }
 
-    /**
-     * @return string
-     */
+
+    public function getCity(): string
+    {
+        return $this->city;
+    }
     public function getCurrentTemp(): string
     {
         return $this->currentTemp;
@@ -56,14 +60,6 @@ class WeatherData
     public function getFeelsLike(): string
     {
         return $this->feelsLike;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJson(): string
-    {
-        return $this->json;
     }
 
     /**

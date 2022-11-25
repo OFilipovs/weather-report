@@ -1,121 +1,47 @@
 <?php
-//spl_autoload_register(function($className){
-//    require_once __DIR__ . "/app/" . $className . ".php";
-//});
 
 require_once "vendor/autoload.php";
-use App\{WeatherAPI, WeatherData, GeoApi};
 
+//$json = file_get_contents("https://api.openweathermap.org/data/2.5/weather?lat=56.97&lon=24.11&appid=0eba44821e927c8c8087abfd831e6f98");
+//$data = json_decode($json, true);
 
+$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $routes) {
+    $routes->addRoute('GET', '/', ['App\Controllers\WeatherController', 'index']);
+});
 
-$city = $_GET['city'] ?? "Riga";
-$coordinates = new GeoApi($city);
-$apiCall = new WeatherAPI($coordinates->getCoordinates());
-$weatherData = new WeatherData($apiCall->getData());
-?>
+// Fetch method and URI from somewhere
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles/styles.css"/>
-</head>
-<body>
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
+}
+$uri = rawurldecode($uri);
 
-<div class="container">
-    <div class="city">
-        <form action="index.php" method="get">
-            City name: <label>
-                <input type="text" name="city">
-            </label><br>
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+switch ($routeInfo[0]) {
+    case FastRoute\Dispatcher::NOT_FOUND:
+        // ... 404 Not Found
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        // ... 405 Method Not Allowed
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $handler = $routeInfo[1];
+        $vars = $routeInfo[2];
 
-            <input type="submit">
-        </form>
-    </div>
-    <div class="day day-one">
-        <div class="cool">
-            <p><span>Today</span></p>
-        </div>
-        <div class="weather-data">
-            <h1><?= $weatherData->formatTemperature($weatherData->getCurrentTemp()) ?></h1>
-    <p>Temperature</p>
-    </div>
-    <div class="weather-data">
-        <h3><?= $weatherData->formatTemperature($weatherData->getMaxTemp()) ?></h3>
-        <p>Max Temperature</p>
-    </div>
-    <div class="weather-data">
-        <h3><?= $weatherData->formatTemperature($weatherData->getMinTemp()) ?></h3>
-        <p>Min Temperature</p>
-    </div>
-    <div class="weather-data">
-        <h3><?= $weatherData->formatTemperature($weatherData->getHumidity()) ?></h3>
-        <p>Humidity</p>
-    </div>
-    </div>
-    <div class="day day-two">
-        <div class="cool">
-            <p><span>Tomorrow</span></p>
-        </div>
-        <div class="weather-data">
-            <h1>30</h1>
-            <p>Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Max Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Min Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Humidity</p>
-        </div>
-    </div>
-    <div class="day day-three">
-        <div class="cool">
-            <p><span>After tomorrow</span></p>
-        </div>
-        <div class="weather-data">
-            <h1>30</h1>
-            <p>Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Max Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Min Temperature</p>
-        </div>
-        <div class="weather-data">
-            <h3>30</h3>
-            <p>Humidity</p>
-        </div>
-    </div>
-    <div class="cities">
-        <a href="/?city=Vilnius">Vilnius</a>
-        <a href="/?city=Riga">Riga</a>
-        <a href="/?city=Tallinn">Tallinn</a>
-    </div>
-</div>
-
-
-</body>
-
-
-</html>
+        [$controller, $method] = $handler;
+        (new $controller)->{$method}();
+        break;
+}
 
 
 
 
-<?php
+
+
 //while (true) {
 //
 //    foreach ($menu as $key => $value) {
@@ -180,7 +106,7 @@ $weatherData = new WeatherData($apiCall->getData());
 //
 //temperature
 //echo $data['main']['temp'];
-?>
+
 
 
 

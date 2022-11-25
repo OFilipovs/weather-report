@@ -10,12 +10,6 @@ class WeatherAPI
     private string $json;
     private array $data;
 
-
-
-    /**
-     * @param string $city
-     * @param string $country
-     */
     public function __construct(array $data)
     {
 
@@ -24,8 +18,6 @@ class WeatherAPI
         $this->data = json_decode($this->json, true);
 
     }
-
-
 
     public function getData(): array
     {
@@ -37,9 +29,5 @@ class WeatherAPI
         return $this->apiLink;
     }
 
-    public function errorHandlingFromApi()
-    {
-        return $this->data['count'] > 0;
-    }
 
 }
